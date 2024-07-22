@@ -23,8 +23,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  # Replace with your password secret
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag tmr-api-ci-cd:$(date +%s)
+        run: docker build . --file Dockerfile --tag tmr-api-ci-cd:v1
 
       - name: Push the image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/tmr-api-ci-cd:$(date +%s)
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/tmr-api-ci-cd:v1
 
