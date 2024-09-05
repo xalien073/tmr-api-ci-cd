@@ -21,11 +21,14 @@ jobs:
 
       - name: Build the Docker image with a unique tag
         run: |
-          IMAGE_TAG=tmr-api:${{ github.sha }}
+          IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+          echo "Building image with tag: $IMAGE_TAG"
           docker build . --file Dockerfile --tag $IMAGE_TAG
+          docker images # Debugging: List images to ensure it was built
 
       - name: Push the image to Docker Hub
         run: |
-          IMAGE_TAG=tmr_api:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_TAG
+          IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+          echo "Pushing image with tag: $IMAGE_TAG"
+          docker push $IMAGE_TAG
 
