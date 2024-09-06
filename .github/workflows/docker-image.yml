@@ -32,3 +32,22 @@ jobs:
           echo "Pushing image with tag: $IMAGE_TAG"
           docker push $IMAGE_TAG
 
+      - name: Clone tmr_api-k8s repository
+        run: |
+          git clone https://github.com/xalien073/tmr_api-k8s.git
+          cd tmr_api-k8s
+
+      - name: Update fast_deployment.yaml with the new image tag
+        run: |
+          cd tmr_api-k8s
+          sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
+
+      - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
+        run: |
+          cd tmr_api-k8s
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add fast_deployment.yaml
+          git commit -m "Update image tag to ${{ github.sha }}"
+          git push https://github.com/xalien073/tmr_api-k8s.git main
+
