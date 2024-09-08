@@ -8,7 +8,8 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    # runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -51,3 +52,6 @@ jobs:
           git commit -m "Update image tag to ${{ github.sha }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
 
+      - name: Apply the new deployment to Minikube
+        run: |
+          kubectl apply -f fast_deployment.yaml
