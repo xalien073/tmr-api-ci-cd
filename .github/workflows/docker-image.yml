@@ -35,7 +35,7 @@ jobs:
 
       - name: Clone tmr_api-k8s repository
         run: |
-          git clone https://github.com/xalien073/tmr_api-k8s.git
+          git clone https://github.com/xalien073/tmr_api-k8s.git main
           cd tmr_api-k8s
 
       - name: Update fast_deployment.yaml with the new image tag
