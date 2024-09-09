@@ -97,6 +97,7 @@ jobs:
 
       - name: Apply the new deployment to Minikube
         run: |
+          cd tmr_api-k8s
           kubectl apply -f fast_deployment.yaml
 
 
