@@ -7,12 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: self-hosted
     # runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout the repository
+        uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -33,25 +34,87 @@ jobs:
           echo "Pushing image with tag: $IMAGE_TAG"
           docker push $IMAGE_TAG
 
-      # - name: Clone tmr_api-k8s repository
-      #   run: |
-      #     git clone https://github.com/xalien073/tmr_api-k8s.git
-      #     cd tmr_api-k8s
+      - name: Checkout tmr_api-k8s repository
+        run: |
+          git clone https://github.com/xalien073/tmr_api-k8s.git
+          cd tmr_api-k8s
 
-      # - name: Update fast_deployment.yaml with the new image tag
-      #   run: |
-      #     cd tmr_api-k8s
-      #     sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
+      - name: Update fast_deployment.yaml with the new image tag
+        run: |
+          cd tmr_api-k8s
+          sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
 
-      # - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
-      #   run: |
-      #     cd tmr_api-k8s
-      #     git config user.name "GitHub Actions"
-      #     git config user.email "actions@github.com"
-      #     git add fast_deployment.yaml
-      #     git commit -m "Update image tag to ${{ github.sha }}"
-      #     git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
+      - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
+        run: |
+          cd tmr_api-k8s
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add fast_deployment.yaml
+          git commit -m "Update image tag to ${{ github.sha }}"
+          git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
 
-      # - name: Apply the new deployment to Minikube
-      #   run: |
-      #     kubectl apply -f fast_deployment.yaml
+      - name: Apply the new deployment to Minikube
+        # env:
+          #KUBECONFIG: /path/to/your/kubeconfig # Adjust this path to where your kubeconfig is located on the self-hosted runner
+        run: |
+          cd tmr_api-k8s
+          kubectl apply -f fast_deployment.yaml
+
+
+# name: Docker Image CI
+
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+# jobs:
+#   build-and-push:
+#     runs-on: self-hosted
+#     # runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
+
+#       - name: Build the Docker image with a unique tag
+#         run: |
+#           IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+#           echo "Building image with tag: $IMAGE_TAG"
+#           docker build . --file Dockerfile --tag $IMAGE_TAG
+#           docker images # Debugging: List images to ensure it was built
+
+#       - name: Push the image to Docker Hub
+#         run: |
+#           IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+#           echo "Pushing image with tag: $IMAGE_TAG"
+#           docker push $IMAGE_TAG
+
+#       # - name: Clone tmr_api-k8s repository
+#       #   run: |
+#       #     git clone https://github.com/xalien073/tmr_api-k8s.git
+#       #     cd tmr_api-k8s
+
+#       # - name: Update fast_deployment.yaml with the new image tag
+#       #   run: |
+#       #     cd tmr_api-k8s
+#       #     sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
+
+#       # - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
+#       #   run: |
+#       #     cd tmr_api-k8s
+#       #     git config user.name "GitHub Actions"
+#       #     git config user.email "actions@github.com"
+#       #     git add fast_deployment.yaml
+#       #     git commit -m "Update image tag to ${{ github.sha }}"
+#       #     git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
+
+#       # - name: Apply the new deployment to Minikube
+#       #   run: |
+#       #     kubectl apply -f fast_deployment.yaml
