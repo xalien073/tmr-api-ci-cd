@@ -59,12 +59,14 @@ jobs:
 
       - name: Update fast_deployment.yaml with the new image tag in cmd
         run: |
+          cd tmr_api-k8s
           @echo off
           setlocal enabledelayedexpansion
           set image_tag=xalien073/tmr_api:${{ github.sha }}
           for /f "tokens=*" %%i in (fast_deployment.yaml) do (
           set line=%%i
-          echo !line:tmr_api:=! | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! || echo !line! >> fast_deployment.tmp
+          echo !line:tmr_api:=! | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! ||
+          echo !line! >> fast_deployment.tmp
           )
           move /Y fast_deployment.tmp fast_deployment.yaml
         shell: cmd
