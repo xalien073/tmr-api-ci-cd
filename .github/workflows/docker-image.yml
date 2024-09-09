@@ -95,9 +95,9 @@ jobs:
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
         shell: cmd
 
-      # - name: Apply the new deployment to Minikube
-      #   run: |
-      #     kubectl apply -f fast_deployment.yaml
+      - name: Apply the new deployment to Minikube
+        run: |
+          kubectl apply -f fast_deployment.yaml
 
 
 # name: Docker Image CI
