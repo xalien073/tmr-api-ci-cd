@@ -35,7 +35,7 @@ jobs:
           set IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
           echo Building image with tag: %IMAGE_TAG%
           docker build . --file Dockerfile --tag %IMAGE_TAG%
-          docker images # Debugging: List images to ensure it was built
+          docker images
         shell: cmd
       
       # - name: Push the image to Docker Hub
