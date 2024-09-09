@@ -56,7 +56,7 @@ jobs:
           git clone https://github.com/xalien073/tmr_api-k8s.git
           cd tmr_api-k8s
         shell: cmd
-
+      # with cmd
       - name: Update fast_deployment.yaml with the new image tag in cmd
         run: |
           cd tmr_api-k8s
