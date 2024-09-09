@@ -27,14 +27,14 @@ jobs:
           echo "Building image with tag: $env:IMAGE_TAG"
           docker build . --file Dockerfile --tag $env:IMAGE_TAG
           docker images # Debugging: List images to ensure it was built
-        shell: pwsh
+        shell: cmd
 
       - name: Push the image to Docker Hub
         run: |
           $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
           echo "Pushing image with tag: $env:IMAGE_TAG"
           docker push $env:IMAGE_TAG
-        shell: pwsh
+        shell: cmd
 
       # Uncomment these steps if you want to use them
       # - name: Clone tmr_api-k8s repository
