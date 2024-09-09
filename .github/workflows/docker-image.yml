@@ -52,16 +52,17 @@ jobs:
           docker push %IMAGE_TAG%
         shell: cmd
 
-      # Uncomment these steps if you want to use them
-      # - name: Clone tmr_api-k8s repository
-      #   run: |
-      #     git clone https://github.com/xalien073/tmr_api-k8s.git
-      #     cd tmr_api-k8s
+      - name: Clone tmr_api-k8s repository
+        run: |
+          git clone https://github.com/xalien073/tmr_api-k8s.git
+          cd tmr_api-k8s
+        shell: cmd
 
       # - name: Update fast_deployment.yaml with the new image tag
       #   run: |
       #     cd tmr_api-k8s
       #     sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
+        shell: cmd
 
       # - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
       #   run: |
