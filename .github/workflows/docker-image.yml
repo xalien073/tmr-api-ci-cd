@@ -62,7 +62,7 @@ jobs:
       #   run: |
       #     cd tmr_api-k8s
       #     sed -i 's|image: tmr_api:.*|image: xalien073/tmr_api:${{ github.sha }}|' fast_deployment.yaml
-        shell: cmd
+        # shell: cmd
 
       # - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
       #   run: |
