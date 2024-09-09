@@ -57,13 +57,10 @@ jobs:
           cd tmr_api-k8s
           echo Changed directory to tmr_api-k8s
           @echo off
-          setlocal enabledelayedexpansion
           set image_tag=xalien073/tmr_api:${{ github.sha }}
-          for /f "tokens=*" %%i in (fast_deployment.yaml) do (
-          set line=%%i
-          echo !line:tmr_api:=! | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! ||
-          echo !line! >> fast_deployment.tmp
-          )
+          (for /f "tokens=*" %%i in (fast_deployment.yaml) do (
+            echo %%i | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! || echo %%i
+          )) > fast_deployment.tmp
           move /Y fast_deployment.tmp fast_deployment.yaml
         shell: cmd
       
