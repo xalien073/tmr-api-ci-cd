@@ -21,19 +21,35 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           timeout: '600'
 
+      
+      # - name: Build the Docker image with a unique tag
+      #   run: |
+      #     $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
+      #     echo "Building image with tag: $env:IMAGE_TAG"
+      #     docker build . --file Dockerfile --tag $env:IMAGE_TAG
+      #     docker images # Debugging: List images to ensure it was built
+      #   shell: cmd
+
       - name: Build the Docker image with a unique tag
         run: |
-          $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
-          echo "Building image with tag: $env:IMAGE_TAG"
-          docker build . --file Dockerfile --tag $env:IMAGE_TAG
+          set IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+          echo Building image with tag: %IMAGE_TAG%
+          docker build . --file Dockerfile --tag %IMAGE_TAG%
           docker images # Debugging: List images to ensure it was built
         shell: cmd
+      
+      # - name: Push the image to Docker Hub
+      #   run: |
+      #     $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
+      #     echo "Pushing image with tag: $env:IMAGE_TAG"
+      #     docker push $env:IMAGE_TAG
+      #   shell: cmd
 
       - name: Push the image to Docker Hub
         run: |
-          $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
-          echo "Pushing image with tag: $env:IMAGE_TAG"
-          docker push $env:IMAGE_TAG
+          set IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+          echo Pushing image with tag: %IMAGE_TAG%
+          docker push %IMAGE_TAG%
         shell: cmd
 
       # Uncomment these steps if you want to use them
