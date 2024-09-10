@@ -98,6 +98,7 @@ jobs:
       - name: Apply the new deployment to Minikube
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
+          git pull origin main
           kubectl apply -f fast_deployment.yaml
 
 
