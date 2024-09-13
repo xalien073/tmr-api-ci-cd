@@ -36,17 +36,26 @@ jobs:
           docker push %IMAGE_TAG%
         shell: cmd
 
-      - name: Clone tmr_api-k8s repository & Update fast_deployment.yaml with the new image tag in cmd
+      
+      - name: Clone tmr_api-k8s repository & Update fast_deployment.yaml with the new image tag using PowerShell
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           echo Changed directory to tmr_api-k8s
-          @echo off
-          set image_tag=xalien073/tmr_api:${{ github.sha }}
-          (for /f "tokens=*" %%i in (fast_deployment.yaml) do (
-            echo %%i | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! || echo %%i
-          )) > fast_deployment.tmp
-          move /Y fast_deployment.tmp fast_deployment.yaml
-        shell: cmd
+          $image_tag="xalien073/tmr_api:${{ github.sha }}"
+          (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $image_tag" | Set-Content fast_deployment.yaml
+        shell: pwsh
+        
+      # - name: Clone tmr_api-k8s repository & Update fast_deployment.yaml with the new image tag in cmd
+      #   run: |
+      #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
+      #     echo Changed directory to tmr_api-k8s
+      #     @echo off
+      #     set image_tag=xalien073/tmr_api:${{ github.sha }}
+      #     (for /f "tokens=*" %%i in (fast_deployment.yaml) do (
+      #       echo %%i | findstr /r "^image: tmr_api:" >nul && echo image: !image_tag! || echo %%i
+      #     )) > fast_deployment.tmp
+      #     move /Y fast_deployment.tmp fast_deployment.yaml
+      #   shell: cmd
       
       - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
         run: |
