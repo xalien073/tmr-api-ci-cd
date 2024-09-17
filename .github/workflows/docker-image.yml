@@ -43,7 +43,7 @@ jobs:
           echo Changed directory to tmr_api-k8s
           $image_tag="xalien073/tmr_api:${{ github.sha }}"
           (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $image_tag" | Set-Content fast_deployment.yaml
-        shell: pwsh
+        # shell: pwsh
         
       # - name: Clone tmr_api-k8s repository & Update fast_deployment.yaml with the new image tag in cmd
       #   run: |
