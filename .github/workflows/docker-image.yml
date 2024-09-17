@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run CMD script with PowerShell
-        shell: pwsh  # This specifies to use PowerShell
+        shell: pwsh
         run: |
           ./run.cmd
 
