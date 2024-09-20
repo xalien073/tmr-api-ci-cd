@@ -29,7 +29,7 @@ jobs:
           docker images
           Write-Host "Pushing image with tag: $env:IMAGE_TAG"
           docker push $env:IMAGE_TAG
-        shell: pwsh
+        shell: powershell
 
       - name: Update fast_deployment.yaml with the new image tag using PowerShell
         run: |
