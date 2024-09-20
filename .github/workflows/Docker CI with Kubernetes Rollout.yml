@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-push:
-    if: runner.labels.contains('self-hosted')
+    if: contains(github.runner_labels, 'self-hosted') # Check if the runner is self-hosted
     runs-on: self-hosted
 
     steps:
