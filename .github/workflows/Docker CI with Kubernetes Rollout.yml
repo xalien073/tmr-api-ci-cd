@@ -11,14 +11,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Debug Runner Labels
-        run: |
-          echo "Runner Labels: ${{ toJson(github.runner_labels) }}"
-
-      - name: Continue if Self-Hosted
-        if: contains(github.runner_labels, 'self-hosted')
-        run: echo "This is a self-hosted runner, proceeding with the workflow."
-
       - uses: actions/checkout@v4
 
       - name: Login to Docker Hub
