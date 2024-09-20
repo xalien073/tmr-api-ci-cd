@@ -23,12 +23,21 @@ jobs:
       
       - name: Build the Docker image with a unique tag & Push the image to Docker Hub
         run: |
-          set IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
-          echo Building image with tag: %IMAGE_TAG%
-          docker build . --file Dockerfile --tag %IMAGE_TAG%
-          docker images
-          echo Pushing image with tag: %IMAGE_TAG%
-          docker push %IMAGE_TAG%
+            IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
+            echo "Building image with tag: $IMAGE_TAG"
+            docker build . --file Dockerfile --tag $IMAGE_TAG
+            docker images
+            echo "Pushing image with tag: $IMAGE_TAG"
+            docker push $IMAGE_TAG
+      
+    #   - name: Build the Docker image with a unique tag & Push the image to Docker Hub
+    #     run: |
+    #         set IMAGE_TAG=xalien073/tmr_api:${{ github.sha }}
+    #         echo Building image with tag: %IMAGE_TAG%
+    #         docker build . --file Dockerfile --tag %IMAGE_TAG%
+    #         docker images
+    #         echo Pushing image with tag: %IMAGE_TAG%
+    #         docker push %IMAGE_TAG%
       
     #   - name: Push the image to Docker Hub
     #     run: |
@@ -51,7 +60,7 @@ jobs:
           git add fast_deployment.yaml
           git commit -m "Update image tag to ${{ github.sha }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
-
+      
       - name: Apply the new deployment to Minikube
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
