@@ -36,8 +36,8 @@ jobs:
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           Write-Host "Changed directory to tmr_api-k8s"
           $image_tag="xalien073/tmr_api:${{ github.sha }}"
-          (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $image_tag" | Set-Content fast_deployment.yaml
-        shell: pwsh
+          (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $env:IMAGE_TAG" | Set-Content fast_deployment.yaml
+        shell: powershell
 
       - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
         run: |
@@ -47,13 +47,13 @@ jobs:
           git add fast_deployment.yaml
           git commit -m "Update image tag to ${{ github.sha }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
-        shell: pwsh
+        shell: powershell
 
       - name: Apply the new deployment to Minikube
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           kubectl apply -f fast_deployment.yaml
-        shell: pwsh
+        shell: powershell
 
 
 # name: Docker Image CI
