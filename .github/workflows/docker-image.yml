@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           timeout: '600'
 
-      - name: Build the Docker image with a unique tag & Push the image to Docker Hub
+      - name: Build the Docker image with a unique tag, Push the image to Docker Hub & Update fast_deployment.yaml with the new image tag using PowerShell
         run: |
           $env:IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
           Write-Host "Building image with tag: $env:IMAGE_TAG"
@@ -29,15 +29,17 @@ jobs:
           docker images
           Write-Host "Pushing image with tag: $env:IMAGE_TAG"
           docker push $env:IMAGE_TAG
-        shell: powershell
-
-      - name: Update fast_deployment.yaml with the new image tag using PowerShell
-        run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           Write-Host "Changed directory to tmr_api-k8s"
-          $image_tag="xalien073/tmr_api:${{ github.sha }}"
           (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $env:IMAGE_TAG" | Set-Content fast_deployment.yaml
         shell: powershell
+
+    #   - name: Update fast_deployment.yaml with the new image tag using PowerShell
+    #     run: |
+    #       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
+    #       Write-Host "Changed directory to tmr_api-k8s"
+    #       (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $env:IMAGE_TAG" | Set-Content fast_deployment.yaml
+    #     shell: powershell
 
       - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
         run: |
@@ -47,13 +49,13 @@ jobs:
           git add fast_deployment.yaml
           git commit -m "Update image tag to ${{ github.sha }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
-        shell: powershell
+        # shell: powershell
 
       - name: Apply the new deployment to Minikube
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           kubectl apply -f fast_deployment.yaml
-        shell: powershell
+        # shell: powershell
 
 
 # name: Docker Image CI
