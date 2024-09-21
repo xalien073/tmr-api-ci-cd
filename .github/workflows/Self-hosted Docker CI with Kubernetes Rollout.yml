@@ -46,3 +46,10 @@ jobs:
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
           kubectl apply -f fast_deployment.yaml
+          kubectl apply -f fast_cm.yaml
+          kubectl apply -f fast_service.yaml
+
+      # - name: Apply the new deployment to Azure Kubernetes Cluster
+      #   run: |
+      #     az aks get-credentials --resource-group poona-student --name <CLUSTER_NAME>
+      #     kubectl apply -f fast_deployment.yaml
