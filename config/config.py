@@ -5,9 +5,21 @@ from jose import JWTError, jwt
 from auth.jwt_handler import decode_jwt
 import os
 
+def read_config_data(filename):
+    filepath = os.path.join("/app/cm", filename)
+    try:
+        with open(filepath, "r", os.O_NOATIME) as f:  # Open with O_NOATIME flag
+            return f.read()
+    except FileNotFoundError:
+        # Handle potential file not found error (optional)
+        return None
+        # Or raise an exception based on your application logic
+
 # MongoDB Configuration
-MONGO_URI = os.getenv("DATABASE_URI")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
+MONGO_URI = read_config_data("DATABASE_URI")
+# os.getenv("DATABASE_URI")
+DATABASE_NAME = read_config_data("DATABASE_NAME")
+# os.getenv("DATABASE_NAME")
 
 # Dependency to get the MongoDB client
 async def get_database():

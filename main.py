@@ -7,16 +7,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import os
 
-import os
+# import os
 
-def read_config_data(filename):
-    filepath = os.path.join("/app/cm", filename)
-    try:
-        with open(filepath, "r", os.O_NOATIME) as f:  # Open with O_NOATIME flag
-            return f.read()
-    except FileNotFoundError:
-        # Handle potential file not found error (optional)
-        return None  # Or raise an exception based on your application logic
+# def read_config_data(filename):
+#     filepath = os.path.join("/app/cm", filename)
+#     try:
+#         with open(filepath, "r", os.O_NOATIME) as f:  # Open with O_NOATIME flag
+#             return f.read()
+#     except FileNotFoundError:
+#         # Handle potential file not found error (optional)
+#         return None
+        # Or raise an exception based on your application logic
 
 # def read_config_data2(filename):
 #     filepath = os.path.join("/app/cm", filename)
@@ -30,9 +31,9 @@ def read_config_data(filename):
 #         # Handle potential file not found error (optional)
 #         return None  # Or raise an exception based on your application logic
 
-cm_test = read_config_data("TEST")
-cm_port = read_config_data("PORT")
-cm_url = read_config_data("URL")
+# cm_test = read_config_data("TEST")
+# cm_port = read_config_data("PORT")
+# cm_url = read_config_data("URL")
 
 token_listener = JWTBearer()
 
@@ -52,14 +53,14 @@ app.add_middleware(
 
 @app.get("/", tags=["Root"])
 async def read_root():
-    print(cm_test)
-    print(cm_port)
-    print(cm_url)
+    # print(cm_test)
+    # print(cm_port)
+    # print(cm_url)
     return {
         "message": "Welcome to T T I Meal Reviewer!.",
-        "test": cm_test,
-        "port": cm_port,
-        "url": cm_url
+        # "test": cm_test,
+        # "port": cm_port,
+        # "url": cm_url
         }
 
 # Include routers from different files
