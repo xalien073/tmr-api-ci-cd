@@ -52,4 +52,4 @@ jobs:
       # - name: Apply the new deployment to Azure Kubernetes Cluster
       #   run: |
       #     az aks get-credentials --resource-group poona-student --name <CLUSTER_NAME>
-      #     kubectl apply -f fast_deployment.yaml
+      #     
