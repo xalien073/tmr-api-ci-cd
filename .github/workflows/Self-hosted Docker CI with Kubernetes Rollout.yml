@@ -33,9 +33,9 @@ jobs:
           (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $env:IMAGE_TAG" | Set-Content fast_deployment.yaml
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm\fastapi-app
           Write-Host "Changed directory to helm\fastapi-app"
-          (Get-Content values.yaml) -replace 'tag:.*', "tag: "'$${{ github.sha }}'"" | Set-Content values.yaml
+          (Get-Content values.yaml) -replace 'tag:.*', "tag: "${{ github.sha }}"" | Set-Content values.yaml
         shell: powershell
-    
+        
       - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
         run: |
           cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
