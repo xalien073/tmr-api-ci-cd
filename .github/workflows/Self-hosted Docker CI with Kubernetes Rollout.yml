@@ -45,16 +45,25 @@ jobs:
           git commit -m "Update image tag to ${{ github.sha }}"
           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
 
+      # - name: Apply the new deployment to Minikube
+      #   run: |
+      #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm
+      #     if ! kubectl get namespace tmr; then
+      #     kubectl create namespace tmr
+      #     fi
+      #     helm install fastapi-app ./fastapi-app
+          
       - name: Apply the new deployment to Minikube
         run: |
-          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm
-          helm install fastapi-app ./fastapi-app
-          
-
+          cd C:/Users/stden/OneDrive/Desktop/prototype/Kubernetes/tmr_api-k8s/AKS/helm
+          if ! kubectl get namespace tmr; then
+            kubectl create namespace tmr
+          fi
+          helm install fastapi-app ./fastapi-app --namespace tmr
+            
       # - name: Apply the new deployment to Azure Kubernetes Cluster
       #   run: |
       #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm
       #     az aks get-credentials --resource-group poona-student --name <CLUSTER_NAME>
       #     helm install fastapi-app ./fastapi-app
 
-      # just a comment to make git push repo
