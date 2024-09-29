@@ -56,3 +56,5 @@ jobs:
       #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm
       #     az aks get-credentials --resource-group poona-student --name <CLUSTER_NAME>
       #     helm install fastapi-app ./fastapi-app
+
+      # just a comment to make git push repo
