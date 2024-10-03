@@ -1,16 +1,14 @@
 trigger:
-  - main  # Specify the branch to watch for changes (ensure 'main' is the correct branch)
+  - main  # Ensure the branch name is correct (main or master)
 
 pool:
-  name: self-hosted-pool  # Use the self-hosted agent pool
+  name: self-hosted-pool  # Specify the self-hosted pool
 
 steps:
-  - checkout: self  # Fetch the GitHub repository
-  
+  - checkout: self  # Checkout the GitHub repository
+
   - script: |
-      git clone https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR  # Clone the Azure DevOps repository
-      cd TMR  # Navigate into the cloned repository folder
-      git remote add azure https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR  # Add the remote again, in case needed
-      git push azure main  # Push changes to Azure DevOps
-    displayName: 'Clone and sync changes to Azure DevOps'
-  
+      git clone https://pbs_student7:r2m6cldodvlk5oxdekgr7t5duzgd4wp3yzhnyspjl3xacdtfhwfa@dev.azure.com/pbsstudent7/TMR/_git/TMR  # Clone the Azure DevOps repo with credentials
+      cd TMR  # Navigate into the cloned directory
+      git push origin main  # Push changes to Azure DevOps
+    displayName: 'Clone and Sync Changes to Azure DevOps'
