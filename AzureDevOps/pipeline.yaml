@@ -1,0 +1,13 @@
+trigger:
+  - main  # This specifies which branch to watch for changes (e.g., 'main' branch in GitHub).
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self  # Fetches the GitHub repository
+
+  - script: |
+      git remote add azure https://your-azure-repo-url
+      git push azure main  # Pushes changes to Azure DevOps repository
+    displayName: 'Sync changes to Azure DevOps'

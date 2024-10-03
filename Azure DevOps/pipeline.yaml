@@ -1,0 +1,14 @@
+trigger:
+  - main  # This specifies which branch to watch for changes (e.g., 'main' branch in GitHub).
+
+pool:
+  name: self-hosted-pool
+
+
+steps:
+  - checkout: self  # Fetches the GitHub repository
+
+  - script: |
+      git remote add azure https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR
+      git push azure main  # Pushes changes to Azure DevOps repository
+    displayName: 'Sync changes to Azure DevOps'
