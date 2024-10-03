@@ -28,38 +28,35 @@ jobs:
           docker images
           Write-Host "Pushing image with tag: $env:IMAGE_TAG"
           docker push $env:IMAGE_TAG
-          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
-          Write-Host "Changed directory to tmr_api-k8s"
-          (Get-Content fast_deployment.yaml) -replace 'image:.*', "image: $env:IMAGE_TAG" | Set-Content fast_deployment.yaml
-          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm\fastapi-app
+          cd k8s/AKS/helm/fastapi-app
           Write-Host "Changed directory to helm\fastapi-app"
           (Get-Content values.yaml) -replace 'tag:.*', "tag: ${{ github.sha }}" | Set-Content values.yaml
         shell: powershell
         
-      - name: Commit and push updated fast_deployment.yaml to tmr_api-k8s
+      - name: Commit and push updated values.yaml to tmr_api
         run: |
-          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s
+          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add .
           git commit -m "Update image tag to ${{ github.sha }}"
-          git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
+          git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api.git main
 
       # - name: Apply the new deployment to Minikube
       #   run: |
-      #     cd C:/Users/stden/OneDrive/Desktop/prototype/Kubernetes/tmr_api-k8s/AKS/helm
+      #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app\k8s\AKS\helm
       #     if (-not (kubectl get namespace tmr)) {
       #       kubectl create namespace tmr
       #     }
       #     helm install fastapi-app ./fastapi-app --namespace tmr
       #   shell: powershell
       
-      - name: Apply the new deployment to Azure Kubernetes Cluster
-        run: |
-          cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\tmr_api-k8s\AKS\helm
-          az aks get-credentials --resource-group poona-student --name <CLUSTER_NAME>
-          if (-not (kubectl get namespace tmr)) {
-            kubectl create namespace tmr
-          }
-          helm install fastapi-app ./fastapi-app
-
+      # - name: Apply the new deployment to Azure Kubernetes Cluster
+      #   run: |
+      #     cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app\k8s\AKS\helm
+      #     az aks get-credentials --resource-group poona-student --name tmr-aks
+      #     if (-not (kubectl get namespace tmr)) {
+      #       kubectl create namespace tmr
+      #     }
+      #     helm install fastapi-app ./fastapi-app
+      #   shell: powershell

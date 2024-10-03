@@ -1,4 +1,4 @@
-# name: Docker CI with Kubernetes Rollout
+# name: Docker CI with Kubernetes Rollout on GitHub Runners
 
 # on:
 #   push:
@@ -19,7 +19,7 @@
 #           username: ${{ secrets.DOCKER_USERNAME }}
 #           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#       - name: Build the Docker image with a unique tag, Push the image to Docker Hub & Update fast_deployment.yaml
+#       - name: Build and push the Docker image with a unique tag
 #         run: |
 #           IMAGE_TAG="xalien073/tmr_api:${{ github.sha }}"
 #           echo "Building image with tag: $IMAGE_TAG"
@@ -28,22 +28,24 @@
 #           echo "Pushing image with tag: $IMAGE_TAG"
 #           docker push $IMAGE_TAG
 
-#           # Clone the Kubernetes repo
-#           git clone https://github.com/xalien073/tmr_api-k8s.git
-#           cd tmr_api-k8s
+#       - name: Update `values.yaml` with new image tag
+#         run: |
+#           cd k8s/AKS/helm/fastapi-app
+#           echo "Updating tag in values.yaml"
+#           sed -i 's/tag:.*/tag: ${{ github.sha }}/' values.yaml
 
-#           # Update the image tag in fast_deployment.yaml
-#           sed -i "s|image:.*|image: $IMAGE_TAG|" fast_deployment.yaml
-
-#       - name: Commit and push updated fast_deployment.yaml
+#       - name: Commit and push updated values.yaml
 #         run: |
 #           git config user.name "GitHub Actions"
 #           git config user.email "actions@github.com"
-#           git add fast_deployment.yaml
+#           git add values.yaml
 #           git commit -m "Update image tag to ${{ github.sha }}"
-#           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api-k8s.git main
+#           git push https://${{ secrets.GH_TOKEN }}@github.com/xalien073/tmr_api.git main
 
-#       - name: Apply the new deployment to Azure Kubernetes Cluster
+#       - name: Deploy to Azure Kubernetes Cluster
 #         run: |
-#           az aks get-credentials --resource-group <RESOURCE_GROUP> --name <CLUSTER_NAME>
-#           kubectl apply -f fast_deployment.yaml
+#           az aks get-credentials --resource-group poona_student --name tmr-aks
+#           if ! kubectl get namespace tmr; then
+#             kubectl create namespace tmr
+#           fi
+#           helm install fastapi-app ./fastapi-app --namespace tmr

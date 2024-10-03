@@ -1,0 +1,17 @@
+replicaCount: 2
+
+image:
+  repository: xalien073/tmr_api
+  tag: 6de60185026e194ac26bf7aa2bcf673eaecfb9a4
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30007
+
+mongodb:
+  uri: "will replace"
+  dbName: cuisine_reviews
+
+resources: {}
