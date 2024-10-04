@@ -1,11 +1,11 @@
 trigger:
-  - main  # Ensure the branch name is correct (main or master)
+  - main
 
 pool:
-  name: self-hosted-pool  # Specify the self-hosted pool
+  name: self-hosted-pool
 
 steps:
-  - checkout: self  # Checkout the GitHub repository
+  - checkout: self
 
   - script: |
       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
