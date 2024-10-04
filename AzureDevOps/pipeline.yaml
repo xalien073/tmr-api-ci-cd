@@ -11,5 +11,4 @@ steps:
       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
       git remote set-url origin https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR
       git push origin main
-      # Push changes to Azure DevOps
     displayName: 'Clone and Sync Changes to Azure DevOps'
