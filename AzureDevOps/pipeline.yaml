@@ -8,7 +8,8 @@ steps:
   - checkout: self  # Checkout the GitHub repository
 
   - script: |
-      git clone https://pbs_student7:r2m6cldodvlk5oxdekgr7t5duzgd4wp3yzhnyspjl3xacdtfhwfa@dev.azure.com/pbsstudent7/TMR/_git/TMR  # Clone the Azure DevOps repo with credentials
-      cd TMR  # Navigate into the cloned directory
-      git push origin main  # Push changes to Azure DevOps
+      cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
+      git remote set-url origin https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR
+      git push origin main
+      # Push changes to Azure DevOps
     displayName: 'Clone and Sync Changes to Azure DevOps'
