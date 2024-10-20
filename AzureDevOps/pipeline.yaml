@@ -7,8 +7,52 @@ pool:
 steps:
   - checkout: self
 
+  # Build the Docker image and tag it with the pipeline's build number
   - script: |
+      cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
+      docker build xalien073/tmr_api:$(Build.BuildId) .
+      docker push xalien073/tmr_api:$(Build.BuildId)
+      cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app\k8s\AKS\helm\fastapi-app
+      sed -i 's/tag:.*/tag: "$(Build.BuildId)"/' values.yaml
       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
       git remote set-url origin https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR
       git push origin main
-    displayName: 'Clone and Sync Changes to Azure DevOps'
+      git remote set-url origin https://github.com/xalien073/tmr-api-ci-cd
+    displayName: 'Build docker image & update image tag'
+
+
+# trigger:
+#   - main
+
+# pool:
+#   name: self-hosted-pool
+
+# steps:
+#   - checkout: self
+
+#   # Build the Docker image and tag it with the pipeline's build number
+#   - script: |
+#       # Navigate to the app directory
+#       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
+      
+#       # Build and push the Docker image to Docker Hub
+#       docker build -t xalien073/tmr_api:$(Build.BuildId) .
+#       docker push xalien073/tmr_api:$(Build.BuildId)
+
+#       # Navigate to Helm chart directory
+#       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app\k8s\AKS\helm\fastapi-app
+      
+#       # Update the image tag in the Helm values.yaml file
+#       sed -i 's/tag:.*/tag: $(Build.BuildId)/' values.yaml
+
+#       # Navigate back to the app directory for git operations
+#       cd C:\Users\stden\OneDrive\Desktop\prototype\Kubernetes\Minikube\t t i meal reviewer minikube\tmr_api\app
+      
+#       # Push changes to Azure DevOps
+#       git remote set-url origin https://pbsstudent7@dev.azure.com/pbsstudent7/TMR/_git/TMR
+#       git push origin main
+      
+#       # Push changes to GitHub
+#       git remote set-url origin https://github.com/xalien073/tmr-api-ci-cd
+#       git push origin main
+#     displayName: 'Build Docker image & Update Image Tag in Helm Chart'
