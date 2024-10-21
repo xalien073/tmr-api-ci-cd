@@ -23,6 +23,7 @@ pipeline {
             }
         }
     }
+}
         // stage('SonarQube Analysis') {
         //     environment {
         //         scannerHome = tool 'SonarQubeScanner'  // SonarQube Scanner installation name
