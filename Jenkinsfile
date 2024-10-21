@@ -1,8 +1,10 @@
 // docker:20.10.8
 pipeline {
     agent {
-        docker { image 'tiangolo/uvicorn-gunicorn:python3.11-slim' }  // Run inside a Docker container with Docker installed
-        args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+        docker {
+            image 'tiangolo/uvicorn-gunicorn:python3.11-slim'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+        }  // Run inside a Docker container with Docker installed
     }
 
     environment {
