@@ -3,7 +3,7 @@ pipeline {
     agent {
         docker {
             image 'tiangolo/uvicorn-gunicorn:python3.11-slim'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+            // args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
         }  // Run inside a Docker container with Docker installed
     }
 
@@ -21,6 +21,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    echo 'Hello, Jenkins!'
                     sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
