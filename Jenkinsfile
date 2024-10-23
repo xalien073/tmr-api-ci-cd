@@ -21,8 +21,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    sh 'docker --version'
                     echo 'Hello, Jenkins!'
-                    sh 'docker build -t $DOCKER_IMAGE .'
+                    sh 'python --version'
+                    // sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
         }
