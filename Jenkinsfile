@@ -1,11 +1,10 @@
-// docker:20.10.8
 pipeline {
-    agent {
-        docker {
-            image 'tiangolo/uvicorn-gunicorn:python3.11-slim'
-            // args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
-        }  // Run inside a Docker container with Docker installed
-    }
+    agent any//{
+        // docker {
+            // image 'tiangolo/uvicorn-gunicorn:python3.11-slim'
+            //// args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+        //}  // Run inside a Docker container with Docker installed
+    //}
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}"  // Tag image with Jenkins Build ID
@@ -23,8 +22,8 @@ pipeline {
                 script {
                     sh 'docker --version'
                     echo 'Hello, Jenkins!'
-                    sh 'python --version'
-                    // sh 'docker build -t $DOCKER_IMAGE .'
+                    //sh 'python --version'
+                    sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
         }
