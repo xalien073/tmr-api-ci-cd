@@ -11,6 +11,25 @@ pipeline {
     }
 
     stages {
+        stage('Static Code Analysis') {
+            environment {
+                SONAR_URL = 'http://20.44.59.222/:9000'
+            }
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+                    echo 'Running SonarQube analysis'
+                    // SonarQube scan command with environment variables
+                    sh """
+                        sonar-scanner \
+                        -Dsonar.projectKey=fastapi_project \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=${SONAR_URL} \
+                        -Dsonar.login=${SONAR_AUTH_TOKEN}
+                    """
+                }
+            }
+        }
+        
         stage('Build Docker Image') {
             steps {
                 script {
@@ -20,7 +39,7 @@ pipeline {
                 }
             }
         }
-    
+
         stage('Push to Docker Hub') {
             steps {
                 script {
@@ -34,21 +53,6 @@ pipeline {
                 }
             }
         }
-    }
-}
-
-        // stage('SonarQube Analysis') {
-        //     environment {
-        //         scannerHome = tool 'SonarQubeScanner'  // SonarQube Scanner installation name
-        //     }
-        //     steps {
-        //         script {
-        //             withSonarQubeEnv('SonarQube') {
-        //                 sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=my_project -Dsonar.sources=src/"
-        //             }
-        //         }
-        //     }
-        // }
 
         // stage('Quality Gate') {
         //     steps {
@@ -74,3 +78,5 @@ pipeline {
         //         script {
         //             sh '''
         //             helm upgrade myapp
+        }
+        }
