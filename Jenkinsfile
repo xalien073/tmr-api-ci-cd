@@ -2,14 +2,15 @@ pipeline {
     agent {
         docker {
             image 'docker:24.0.1-dind'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
+            // args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
             // args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
         }  // Run inside a Docker container with Docker installed
     }
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}"  // Tag image with Jenkins Build ID
-        DOCKER_CONFIG = "$WORKSPACE/.docker"  // Set a custom Docker config path
+        // DOCKER_CONFIG = "$WORKSPACE/.docker"  // Set a custom Docker config path
     }
 
     stages {
@@ -19,7 +20,7 @@ pipeline {
                     sh 'docker --version'
                     echo 'Building docker image using Jenkins!'
                     // sh 'mkdir -p $HOME/.docker'  // Create a Docker config directory if not present
-                    sh 'mkdir -p $DOCKER_CONFIG'  // Ensure the Docker config directory exists
+                    // sh 'mkdir -p $DOCKER_CONFIG'  // Ensure the Docker config directory exists
                     sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
