@@ -2,7 +2,8 @@ pipeline {
     agent {
         docker {
             image 'docker:24.0.1-dind'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+            // args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
         }  // Run inside a Docker container with Docker installed
     }
 
@@ -16,7 +17,7 @@ pipeline {
                 script {
                     sh 'docker --version'
                     echo 'Building docker image using Jenkins!'
-                    sh 'mkdir -p $HOME/.docker'  // Create a Docker config directory if not present
+                    // sh 'mkdir -p $HOME/.docker'  // Create a Docker config directory if not present
                     sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
