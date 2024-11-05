@@ -16,6 +16,7 @@ pipeline {
                 script {
                     sh 'docker --version'
                     echo 'Building docker image using Jenkins!'
+                    sh 'mkdir -p $HOME/.docker'  // Create a Docker config directory if not present
                     sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
