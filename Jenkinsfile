@@ -1,28 +1,21 @@
 pipeline {
-    agent any//{
-        // docker {
-            // image 'tiangolo/uvicorn-gunicorn:python3.11-slim'
-            //// args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
-        //}  // Run inside a Docker container with Docker installed
-    //}
+    agent {
+        docker {
+            image 'docker:24.0.1-dind'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Optional: if you need Docker in Docker
+        }  // Run inside a Docker container with Docker installed
+    }
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}"  // Tag image with Jenkins Build ID
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     sh 'docker --version'
-                    echo 'Hello, Jenkins!'
-                    //sh 'python --version'
+                    echo 'Building docker image using Jenkins!'
                     sh 'docker build -t $DOCKER_IMAGE .'
                 }
             }
