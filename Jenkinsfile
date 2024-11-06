@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
-        SONAR_SCANNER_HOME = tool 'SonarQube Scanner'
+        SONAR_SCANNER_HOME = tool 'sonar-scanner'
     }
 
     stages {
