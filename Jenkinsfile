@@ -21,7 +21,7 @@ pipeline {
                     // SonarQube scan command with environment variables
                     sh """
                         sonar-scanner \
-                        -Dsonar.projectKey=fastapi_project \
+                        -Dsonar.projectKey=TMR-API \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=${SONAR_URL} \
                         -Dsonar.login=${SONAR_AUTH_TOKEN}
