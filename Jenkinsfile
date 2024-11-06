@@ -8,6 +8,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
+        SONAR_SCANNER_HOME = tool 'SonarQube Scanner'
     }
 
     stages {
@@ -19,13 +20,18 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     echo 'Running SonarQube analysis'
                     // SonarQube scan command with environment variables
-                    sh """
-                        sonar-scanner \
-                        -Dsonar.projectKey=TMR-API \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_URL} \
-                        -Dsonar.login=${SONAR_AUTH_TOKEN}
-                    """
+                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner " +
+                        "-Dsonar.projectKey=TMR-API " +
+                        "-Dsonar.sources=. " +
+                        "-Dsonar.host.url=${SONAR_URL} " +
+                        "-Dsonar.login=${SONAR_AUTH_TOKEN}"
+                    // sh """
+                    //     sonar-scanner \
+                    //     -Dsonar.projectKey=TMR-API \
+                    //     -Dsonar.sources=. \
+                    //     -Dsonar.host.url=${SONAR_URL} \
+                    //     -Dsonar.login=${SONAR_AUTH_TOKEN}
+                    // """
                 }
             }
         }
