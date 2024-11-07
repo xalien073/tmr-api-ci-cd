@@ -21,14 +21,15 @@ pipeline {
                     echo "${SONAR_AUTH_TOKEN}"
                     sh """
                         apk update
-                        apk add openjdk11 curl unzip
+                        apk add openjdk11 curl unzip python3=3.11.0
                         curl -o sonar-scanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
                         unzip sonar-scanner.zip -d /opt
                         ln -s /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/bin/sonar-scanner
                         sed -i 's/use_embedded_jre=true/use_embedded_jre=false/' /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner
                         
                         sonar-scanner --version
-
+                        pip install --no-cache-dir -r requirements.txt
+                        curl --fail http://localhost:8000/ || exit 1
                         sonar-scanner \
                         -Dsonar.projectKey=TMR-API \
                         -Dsonar.sources=. \
