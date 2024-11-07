@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
-        SONAR_SCANNER_HOME = tool 'sonar-scanner'
+        // SONAR_SCANNER_HOME = tool 'sonar-scanner'
     }
 
     stages {
@@ -20,18 +20,33 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     echo 'Running SonarQube analysis'
                     // SonarQube scan command with environment variables
-                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner " +
-                        "-Dsonar.projectKey=TMR-API " +
-                        "-Dsonar.sources=. " +
-                        "-Dsonar.host.url=${SONAR_URL} " +
-                        "-Dsonar.login=${SONAR_AUTH_TOKEN}"
-                    // sh """
-                    //     sonar-scanner \
-                    //     -Dsonar.projectKey=TMR-API \
-                    //     -Dsonar.sources=. \
-                    //     -Dsonar.host.url=${SONAR_URL} \
-                    //     -Dsonar.login=${SONAR_AUTH_TOKEN}
-                    // """
+                    // sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner " +
+                    //     "-Dsonar.projectKey=TMR-API " +
+                    //     "-Dsonar.sources=. " +
+                    //     "-Dsonar.host.url=${SONAR_URL} " +
+                    //     "-Dsonar.login=${SONAR_AUTH_TOKEN}"
+                    sh """
+                        // Update package list
+                        apk update
+                        // Install OpenJDK, curl, and unzip
+                        apk add openjdk11 curl unzip
+                        // Download Sonar Scanner (LTS version 4.7.0.2747)
+                        curl -o sonar-scanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+                        // Unzip Sonar Scanner into /opt
+                        unzip sonar-scanner.zip -d /opt
+                        // Create a symbolic link for easy access
+                        ln -s /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/bin/sonar-scanner
+                        // Open the Sonar Scanner configuration file
+                        sed -i 's/use_embedded_jre=true/use_embedded_jre=false/' /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner
+                        
+                        sonar-scanner --version
+
+                        sonar-scanner \
+                        -Dsonar.projectKey=TMR-API \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=${SONAR_URL} \
+                        -Dsonar.login=${SONAR_AUTH_TOKEN}
+                    """
                 }
             }
         }
