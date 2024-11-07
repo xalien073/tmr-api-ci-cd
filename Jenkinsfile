@@ -26,17 +26,11 @@ pipeline {
                     //     "-Dsonar.host.url=${SONAR_URL} " +
                     //     "-Dsonar.login=${SONAR_AUTH_TOKEN}"
                     sh """
-                        // Update package list
                         apk update
-                        // Install OpenJDK, curl, and unzip
                         apk add openjdk11 curl unzip
-                        // Download Sonar Scanner (LTS version 4.7.0.2747)
                         curl -o sonar-scanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
-                        // Unzip Sonar Scanner into /opt
                         unzip sonar-scanner.zip -d /opt
-                        // Create a symbolic link for easy access
                         ln -s /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/bin/sonar-scanner
-                        // Open the Sonar Scanner configuration file
                         sed -i 's/use_embedded_jre=true/use_embedded_jre=false/' /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner
                         
                         sonar-scanner --version
