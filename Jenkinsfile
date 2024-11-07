@@ -8,7 +8,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
-        // SONAR_SCANNER_HOME = tool 'sonar-scanner'
     }
 
     stages {
@@ -19,12 +18,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     echo 'Running SonarQube analysis'
-                    // SonarQube scan command with environment variables
-                    // sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner " +
-                    //     "-Dsonar.projectKey=TMR-API " +
-                    //     "-Dsonar.sources=. " +
-                    //     "-Dsonar.host.url=${SONAR_URL} " +
-                    //     "-Dsonar.login=${SONAR_AUTH_TOKEN}"
+                    echo "${SONAR_AUTH_TOKEN}"
                     sh """
                         apk update
                         apk add openjdk11 curl unzip
