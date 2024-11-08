@@ -18,7 +18,6 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     echo 'Running SonarQube analysis'
-                    echo "${SONAR_AUTH_TOKEN}"
                     sh """
                         apk update
                         apk add openjdk11 curl unzip python3 py3-pip
@@ -26,8 +25,8 @@ pipeline {
                         unzip sonar-scanner.zip -d /opt
                         ln -s /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/bin/sonar-scanner
                         sed -i 's/use_embedded_jre=true/use_embedded_jre=false/' /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner
-                        
                         sonar-scanner --version
+                        
                         python3 -m pip install --no-cache-dir -r requirements.txt
                         sonar-scanner \
                         -Dsonar.projectKey=TMR-API \
@@ -35,6 +34,14 @@ pipeline {
                         -Dsonar.host.url=${SONAR_URL} \
                         -Dsonar.login=${SONAR_AUTH_TOKEN}
                     """
+                }
+            }
+        }
+        
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
@@ -63,19 +70,13 @@ pipeline {
             }
         }
 
-        // stage('Quality Gate') {
-        //     steps {
-        //         timeout(time: 1, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
+        
 
         // stage('Update Helm Chart') {
         //     steps {
         //         script {
         //             sh '''
-        //             cd C:/path/to/your/helm/chart
+        //             cd k8s/AKS/helm/fastapi-app
         //             sed -i 's/tag:.*/tag: ${env.BUILD_ID}/' values.yaml
         //             '''
         //         }
