@@ -63,7 +63,6 @@
                         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                             sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                         }
-
                         // Push the Docker image
                         sh 'docker push $DOCKER_IMAGE'
                     }
@@ -78,21 +77,21 @@
                 steps {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     sh '''
-                    git config user.email "xalien073@gmail.com"
-                    git config user.name "xalien073"
-                    BUILD_NUMBER=${BUILD_NUMBER}
-                    sed -i 's/tag:.*/tag: ${env.BUILD_ID}/' values.yaml k8s/AKS/helm/fastapi-app
-                    git add values.yaml
-                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        git config user.email "xalien073@gmail.com"
+                        git config user.name "xalien073"
+                        BUILD_NUMBER=${BUILD_NUMBER}
+                        sed -i 's/tag:.*/tag: ${env.BUILD_ID}/' values.yaml k8s/AKS/helm/fastapi-app
+                        git add values.yaml
+                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
                 }
-            }
+            ]
 
             // stage('Deploy to AKS') {
             //     steps {
             //         script {
             //             sh '''
             //             helm upgrade myapp
-            }
+        }
     }
