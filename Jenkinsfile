@@ -72,7 +72,7 @@
             
             stage('Update Helm Chart') {
                 environment {
-                    GIT_REPO_NAME = ""
+                    GIT_REPO_NAME = "tmr-api-ci-cd"
                     GIT_USER_NAME = "xalien073"
                 }
                 steps {
