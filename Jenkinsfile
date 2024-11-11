@@ -11,6 +11,13 @@
         }
 
         stages {
+            stage('Checkout') {
+                steps {
+                    sh 'echo passed'
+                    //git branch: 'main', url: ''
+                }
+            }
+
             stage('Static Code Analysis') {
                 environment {
                     SONAR_URL = 'http://20.44.59.222:9000'
