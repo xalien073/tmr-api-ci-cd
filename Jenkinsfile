@@ -8,7 +8,7 @@
 
         environment {
             DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
-            BUILD_ID = env.BUILD_ID
+            BUILD_ID = "${env.BUILD_ID}"
         }
 
         stages {
