@@ -8,7 +8,6 @@
 
         environment {
             DOCKER_IMAGE = "xalien073/tmr_api:${env.BUILD_ID}" // Tag image with Jenkins Build ID
-            BUILD_ID = "${env.BUILD_ID}"
         }
 
         stages {
@@ -84,17 +83,17 @@
                 }
                 steps {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                    sh '''
+                    sh """
                         [ -d target ] && rm -rf target
                         mkdir -p target && cd target
                         git clone https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git .
                         git config user.email "xalien073@gmail.com"
                         git config user.name "xalien073"
-                        sed -i 's/tag:.*/tag: $BUILD_ID/' k8s/AKS/helm/fastapi-app/values.yaml
+                        sed -i 's/tag:.*/tag: ${env.BUILD_ID}/' k8s/AKS/helm/fastapi-app/values.yaml
                         git add k8s/AKS/helm/fastapi-app/values.yaml
                         git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                    '''
+                    """
                     }
                 }
             }
