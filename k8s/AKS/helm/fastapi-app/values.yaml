@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: xalien073/tmr_api
-  tag: 52
+  tag: 53
   pullPolicy: IfNotPresent
 
 service:
