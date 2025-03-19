@@ -35,6 +35,11 @@ pipeline {
                         ln -s /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner /usr/bin/sonar-scanner
                         sed -i 's/use_embedded_jre=true/use_embedded_jre=false/' /opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner
                         sonar-scanner --version
+                        # Download Trivy
+                        wget -O trivy.tar.gz "https://github.com/aquasecurity/trivy/releases/download/v0.60.0/trivy_0.60.0_Linux-64bit.tar.gz"
+                        tar -xvzf trivy.tar.gz -C /opt
+                        ln -s /opt/trivy /usr/bin/trivy
+                        trivy --version
                         
                         python3 -m pip install --no-cache-dir -r requirements.txt
                         echo "🚀 Running SonarQube Analysis..."
