@@ -12,12 +12,12 @@ pipeline {
     }
 
     stages {
-        stage('Wipeout') {
-            steps {
-                deleteDir() // Correct built-in cleanup function
-                echo "🗑️ Workspace wiped out!"
-            }
-        }
+        // stage('Wipeout') {
+        //     steps {
+        //         deleteDir() // Correct built-in cleanup function
+        //         echo "🗑️ Workspace wiped out!"
+        //     }
+        // }
         
         stage('Checkout') {
             steps {
