@@ -20,12 +20,33 @@ pipeline {
         //     }
         // }
         
-        stage('Checkout') {
+        stage('Prepare Workspace') {
             steps {
-                sh 'echo ✅ Checkout passed!'
+                script {
+                    sh '''
+                    rm -rf target  # Delete if exists
+                    mkdir target   # Create target directory
+                    '''
+                }
             }
         }
-
+        
+        stage('Checkout') {
+            steps {
+                dir('target') {  // Change directory to target
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'main']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/xalien073/tmr-api-ci-cd.git',
+                            // credentialsId: 'your-credentials-id'
+                        ]],
+                        extensions: [[$class: 'CloneOption', noTags: false, depth: 0]] // Full clone
+                    ])
+                }
+            }
+        }
+        
         stage('Static Code Analysis') {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
