@@ -26,8 +26,7 @@ pipeline {
                     sh '''
                     rm -rf target
                     mkdir target
-                    chown -R jenkins:jenkins target  # Set correct ownership
-                    chmod -R 775 target                  # Ensure write permissions
+                    cd target
                     whoami
                     '''
                 }
@@ -36,17 +35,15 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                dir('target') {  // Change directory to target
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: 'main']],
-                        userRemoteConfigs: [[
-                            url: 'https://github.com/xalien073/tmr-api-ci-cd.git',
-                            // credentialsId: 'your-credentials-id'
-                        ]],
-                        extensions: [[$class: 'CloneOption', noTags: false, depth: 0]] // Full clone
-                    ])
-                }
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/xalien073/tmr-api-ci-cd.git',
+                        // credentialsId: 'your-credentials-id'
+                    ]],
+                    extensions: [[$class: 'CloneOption', noTags: false, depth: 0]] // Full clone
+                ])
             }
         }
         
