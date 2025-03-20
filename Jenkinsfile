@@ -32,7 +32,11 @@ pipeline {
                     sh """
                         sonar-scanner --version
                         trivy --version
+                        
+                        python3 -m venv /venv && \
+                        . /venv/bin/activate && \
                         python3 -m pip install --no-cache-dir -r requirements.txt
+
                         echo "Running SonarQube Analysis..."
                         sonar-scanner \
                         -Dsonar.projectKey=TMR-API \
