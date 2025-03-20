@@ -27,7 +27,6 @@ pipeline {
                     rm -rf target
                     mkdir target
                     cd target
-                    whoami
                     '''
                 }
             }
@@ -125,6 +124,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     sh """
                         echo "✏️ Updating image tag in values.yaml..."
+                        cd target
                         pwd
                         ls
                         git config user.email "xalien073@gmail.com"
