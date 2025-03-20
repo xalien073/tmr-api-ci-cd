@@ -3,7 +3,7 @@ pipeline {
         docker {
             // image 'docker:24.0.1-dind'
             image 'xalien073/custom-dind-python-sonar-trivy:8'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--user jenkins -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
