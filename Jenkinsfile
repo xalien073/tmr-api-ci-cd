@@ -24,10 +24,11 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    sudo rm -rf target
+                    rm -rf target
                     mkdir target
-                    sudo chown -R jenkins:jenkins target  # Set correct ownership
+                    chown -R jenkins:jenkins target  # Set correct ownership
                     chmod -R 775 target                  # Ensure write permissions
+                    whoami
                     '''
                 }
             }
