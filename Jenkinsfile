@@ -36,7 +36,7 @@ pipeline {
             steps {
                 sh '''
                     cd target
-                    git clone https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git
+                    git clone https://github.com/xalien073/tmr-api-ci-cd.git
                 '''
                 // checkout([
                 //     $class: 'GitSCM',
