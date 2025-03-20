@@ -34,16 +34,19 @@ pipeline {
         
         stage('Checkout') {
             steps {
-                sh 'cd target'
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/xalien073/tmr-api-ci-cd.git',
-                        // credentialsId: 'your-credentials-id'
-                    ]],
-                    extensions: [[$class: 'CloneOption', noTags: false, depth: 0]] // Full clone
-                ])
+                sh '''
+                    cd target
+                    git clone https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git
+                '''
+                // checkout([
+                //     $class: 'GitSCM',
+                //     branches: [[name: 'main']],
+                //     userRemoteConfigs: [[
+                //         url: 'https://github.com/xalien073/tmr-api-ci-cd.git',
+                //         // credentialsId: 'your-credentials-id'
+                //     ]],
+                //     extensions: [[$class: 'CloneOption', noTags: false, depth: 0]] // Full clone
+                // ])
             }
         }
         
