@@ -3,7 +3,7 @@ pipeline {
         docker {
             // image 'docker:24.0.1-dind'
             image 'xalien073/custom-dind-python-sonar-trivy:8'
-            args '--user jenkins -v /var/run/docker.sock:/var/run/docker.sock'
+            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
@@ -24,8 +24,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    rm -rf target  # Delete if exists
-                    mkdir target   # Create target directory
+                    sudo rm -rf target
+                    mkdir target
+                    sudo chown -R jenkins:jenkins target  # Set correct ownership
+                    chmod -R 775 target                  # Ensure write permissions
                     '''
                 }
             }
