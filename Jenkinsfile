@@ -61,6 +61,8 @@ pipeline {
                         sonar-scanner --version
                         trivy --version
                         
+                        cd tmr-api-ci-cd
+                        ls
                         python3 -m venv /venv && \
                         . /venv/bin/activate && \
                         python3 -m pip install --no-cache-dir -r requirements.txt
@@ -132,8 +134,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     sh """
                         echo "✏️ Updating image tag in values.yaml..."
-                        cd target
-                        pwd
+                        cd target/tmr-api-ci-cd
                         ls
                         git config user.email "xalien073@gmail.com"
                         git config user.name "xalien073"
