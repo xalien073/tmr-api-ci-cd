@@ -51,6 +51,10 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
                     sh """
+                        pwd
+                        ls
+                        cd target
+                        ls
                         sonar-scanner --version
                         trivy --version
                         
