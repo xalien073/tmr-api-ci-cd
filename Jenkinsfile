@@ -26,7 +26,7 @@ pipeline {
                     sh '''
                     rm -rf target
                     mkdir target
-                    cd target
+                    
                     '''
                 }
             }
@@ -34,6 +34,7 @@ pipeline {
         
         stage('Checkout') {
             steps {
+                sh 'cd target'
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: 'main']],
