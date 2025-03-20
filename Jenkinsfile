@@ -104,8 +104,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     sh """
                         echo "✏️ Updating image tag in values.yaml..."
-                        git clone https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git helm-repo
-                        cd helm-repo
+                        // git clone https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git helm-repo
+                        // cd helm-repo
                         git config user.email "xalien073@gmail.com"
                         git config user.name "xalien073"
                         sed -i 's/tag:.*/tag: ${env.BUILD_ID}/' k8s/AKS/helm/fastapi-app/values.yaml
